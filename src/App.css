@@ -1,0 +1,34 @@
+.site-logo {
+  display: flex;
+  align-items: center;
+}
+
+.site-logo img {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.content-container {
+  padding-top: 64px; /* 為固定的header預留空間 */
+}
+
+/* Ant Design 全局樣式覆蓋 */
+.ant-btn-primary {
+  background-color: #1677ff;
+}
+
+.ant-btn-primary:hover {
+  background-color: #4096ff;
+}
+
+/* 響應式調整 */
+@media screen and (max-width: 768px) {
+  .ant-layout-header {
+    padding: 0 15px;
+  }
+  
+  .ant-menu-horizontal {
+    line-height: 46px;
+  }
+}
