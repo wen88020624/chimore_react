@@ -19,10 +19,10 @@ const items: MenuProps['items'] = [
     key: 'projects',
     label: <Link to="/projects">服務項目</Link>,
   },
-  {
-    key: 'news',
-    label: <Link to="/news">最新消息</Link>,
-  },
+  // {
+  //   key: 'news',
+  //   label: <Link to="/news">最新消息</Link>,
+  // },
   {
     key: 'contact',
     label: <Link to="/contact">聯絡我們</Link>,

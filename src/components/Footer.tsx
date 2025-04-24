@@ -88,7 +88,7 @@ const Footer: React.FC = () => {
                   信箱：more2821@gmail.com
                 </ContactText>
               </ContactItem>
-              <SocialLink href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <SocialLink href="https://www.facebook.com/profile.php?id=100079786537416" target="_blank" rel="noopener noreferrer">
                 <Image 
                   src="/facebook.fd87dfc7.svg" 
                   alt="Facebook"

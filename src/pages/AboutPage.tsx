@@ -75,7 +75,7 @@ const AboutPage: React.FC = () => {
                 width={200}
                 preview={false}
               />
-              <Title level={4}>總經理王碩模</Title>
+              <Title level={4}>總經理王佩模</Title>
               <Paragraph>
                 臺北市都市計畫委員會專業委員<br />
                 中國文化大學市計畫與開發管理學系兼任講師<br />
