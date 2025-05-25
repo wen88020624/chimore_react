@@ -80,4 +80,11 @@ export class ProjectsController {
   remove(@Param('id') id: string) {
     return this.projectsService.remove(id);
   }
+
+  @ApiOperation({ summary: '創建都市更新案例範例資料' })
+  @ApiResponse({ status: 201, description: '範例資料創建成功' })
+  @Post('sample/urban-renewal')
+  createSampleUrbanRenewalProjects() {
+    return this.projectsService.createSampleUrbanRenewalProjects();
+  }
 }

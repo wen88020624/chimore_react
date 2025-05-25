@@ -74,4 +74,44 @@ export class ProjectsService {
       },
     });
   }
+
+  // 創建都市更新案例範例資料
+  async createSampleUrbanRenewalProjects() {
+    const sampleProjects = [
+      {
+        title: '新北市五股區中興段777地號',
+        location: '(原更動捷運系統機廠)73-4地號等9筆(原5號)土地',
+        description: '本案位於新北市五股區中興段，土地面積約為1,500平方公尺，建築規劃為地上15層、地下3層的集合住宅，提供約120戶的優質住宅單位。專案特色包括完善的公共設施、綠化空間及智能家居設計。',
+        statusNote: '都市更新事業計畫審議會版',
+        category: '都市更新',
+        imageUrl: '/projectInHome1.711722d8.jpg',
+        landArea: '1,500平方公尺',
+        buildingFloors: '地上15層、地下3層',
+        units: '120戶',
+        features: '完善的公共設施、綠化空間及智能家居設計',
+      },
+      {
+        title: '擬訂新北市中和區健康段954地號等7筆土地',
+        location: '新北市中和區',
+        description: '本案位於新北市中和區健康段，土地面積約為2,200平方公尺，規劃為地上18層、地下4層的複合式建築，包含住宅單位與商業空間。專案亮點為便利的交通位置、現代化設施及舒適的生活環境。',
+        statusNote: '都市更新事業計畫及都市設計審議案審議會',
+        category: '都市更新',
+        imageUrl: '/projectInHome2.1a34b004.jpg',
+        landArea: '2,200平方公尺',
+        buildingFloors: '地上18層、地下4層',
+        units: '150戶',
+        features: '便利的交通位置、現代化設施及舒適的生活環境',
+      },
+    ];
+
+    const createdProjects = [];
+    for (const project of sampleProjects) {
+      const created = await this.prisma.project.create({
+        data: project,
+      });
+      createdProjects.push(created);
+    }
+
+    return createdProjects;
+  }
 }

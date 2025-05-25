@@ -41,14 +41,20 @@ model Post {
 
 // 案例實績專案模型
 model Project {
-  id          String        @id @default(uuid()) // 使用 UUID
-  title       String        // 文章標題
-  category    String        // 文章分類
-  content     String        // 內文
-  status      ProjectStatus @default(inProgress) // 狀態
-  imageUrl    String?       // 圖片url (可選)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id              String        @id @default(uuid()) // 使用 UUID
+  title           String        // 專案標題（如：新北市五股區中興段777地號）
+  location        String        // 專案位置/地址
+  description     String        // 專案描述
+  statusNote      String?       // 專案狀態說明（如：都市更新事業計畫審議會版）
+  category        String        @default("都市更新") // 專案分類
+  status          ProjectStatus @default(inProgress) // 專案狀態
+  imageUrl        String?       // 主要圖片 URL
+  landArea        String?       // 土地面積
+  buildingFloors  String?       // 建築樓層（如：地上X層、地下X層）
+  units           String?       // 住宅單位數
+  features        String?       // 專案特色
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 
   @@map("projects")
 }
