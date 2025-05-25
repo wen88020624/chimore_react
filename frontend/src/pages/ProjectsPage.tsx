@@ -1,6 +1,8 @@
-import React from 'react';
-import { Typography, Row, Col, Card, Divider, Image } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Typography, Row, Col, Card, Divider, Image, Spin, Select, Space, Tag } from 'antd';
 import styled from 'styled-components';
+import { projectsApi, REGION_CATEGORIES } from '../services/api';
+import { Project, ProjectStatus } from '../types';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -36,6 +38,33 @@ const ProjectLocation = styled(Text)`
 `;
 
 const ProjectsPage: React.FC = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+  // 載入專案列表
+  const loadProjects = async () => {
+    try {
+      setLoading(true);
+      const data = selectedCategory 
+        ? await projectsApi.getByCategory(selectedCategory)
+        : await projectsApi.getAll();
+      setProjects(data);
+    } catch {
+      console.error('載入專案失敗');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadProjects();
+  }, [selectedCategory]);
+
+  // 分離主要專案和其他專案
+  const mainProjects = projects.slice(0, 2);
+  const otherProjects = projects.slice(2);
+
   return (
     <>
       <div style={{ 
@@ -64,114 +93,137 @@ const ProjectsPage: React.FC = () => {
           <Paragraph style={{ fontSize: 16, textAlign: 'center', marginBottom: 40 }}>
             我們的專業團隊致力於打造高品質的都市更新專案，以下是我們部分的代表作品。
           </Paragraph>
+
+          {/* 篩選器 */}
+          <div style={{ marginBottom: 30, textAlign: 'center' }}>
+            <Space>
+              <Text>地區篩選：</Text>
+              <Select
+                placeholder="選擇地區"
+                style={{ width: 200 }}
+                allowClear
+                value={selectedCategory || undefined}
+                onChange={setSelectedCategory}
+              >
+                {REGION_CATEGORIES.map(category => (
+                  <Select.Option key={category} value={category}>
+                    {category}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Space>
+          </div>
           
-          <Row gutter={[24, 24]}>
-            <Col xs={24}>
-              <StyledCard>
-                <Row gutter={[24, 24]}>
-                  <Col xs={24} md={10}>
-                    <Image 
-                      src="/projectInHome1.711722d8.jpg" 
-                      alt="新北市五股區中興段777地號等更新事業計畫"
-                      preview={false}
-                    />
-                  </Col>
-                  <Col xs={24} md={14}>
-                    <ProjectTitle level={3}>新北市五股區中興段777地號</ProjectTitle>
-                    <ProjectLocation>
-                      (原更動捷運系統機廠)73-4地號等9筆(原5號)土地
-                    </ProjectLocation>
-                    <Paragraph>
-                      本案位於新北市五股區中興段，土地面積約為X平方公尺，建築規劃為地上X層、地下X層的集合住宅，
-                      提供約X戶的優質住宅單位。專案特色包括完善的公共設施、綠化空間及智能家居設計。
-                    </Paragraph>
-                    <Paragraph>
-                      <Text strong>都市更新事業計畫審議會版</Text>
-                    </Paragraph>
-                  </Col>
-                </Row>
-              </StyledCard>
-            </Col>
+          <Spin spinning={loading}>
+            {/* 主要專案展示 */}
+            <Row gutter={[24, 24]}>
+              {mainProjects.map(project => (
+                <Col xs={24} key={project.id}>
+                  <StyledCard>
+                    <Row gutter={[24, 24]}>
+                      <Col xs={24} md={10}>
+                        <Image 
+                          src={project.imageUrl || '/serviceImg.eb32ecf0.jpg'} 
+                          alt={project.title}
+                          preview={false}
+                          style={{ width: '100%', height: 250, objectFit: 'cover' }}
+                        />
+                      </Col>
+                      <Col xs={24} md={14}>
+                        <Space direction="vertical" style={{ width: '100%' }}>
+                          <div>
+                            <ProjectTitle level={3}>{project.title}</ProjectTitle>
+                            <Space>
+                              <Tag color="blue">{project.category}</Tag>
+                              <Tag color={project.status === ProjectStatus.complete ? 'green' : 'orange'}>
+                                {project.status === ProjectStatus.complete ? '已完成' : '進行中'}
+                              </Tag>
+                            </Space>
+                          </div>
+                          <ProjectLocation>{project.location}</ProjectLocation>
+                          <Paragraph>{project.description}</Paragraph>
+                          {project.statusNote && (
+                            <Paragraph>
+                              <Text strong>{project.statusNote}</Text>
+                            </Paragraph>
+                          )}
+                          {(project.landArea || project.buildingFloors || project.units) && (
+                            <Space wrap>
+                              {project.landArea && <Tag>面積: {project.landArea}</Tag>}
+                              {project.buildingFloors && <Tag>樓層: {project.buildingFloors}</Tag>}
+                              {project.units && <Tag>戶數: {project.units}</Tag>}
+                            </Space>
+                          )}
+                          {project.features && (
+                            <Paragraph>
+                              <Text type="secondary">特色：{project.features}</Text>
+                            </Paragraph>
+                          )}
+                        </Space>
+                      </Col>
+                    </Row>
+                  </StyledCard>
+                </Col>
+              ))}
+            </Row>
             
-            <Col xs={24}>
-              <StyledCard>
+            {/* 其他專案 */}
+            {otherProjects.length > 0 && (
+              <>
+                <Divider />
+                <Title level={3} style={{ textAlign: 'center', margin: '40px 0 30px' }}>更多項目</Title>
                 <Row gutter={[24, 24]}>
-                  <Col xs={24} md={10}>
-                    <Image 
-                      src="/projectInHome2.1a34b004.jpg" 
-                      alt="擬訂新北市中和區健康段954地號等7筆土地都市更新事業計畫"
-                      preview={false}
-                    />
-                  </Col>
-                  <Col xs={24} md={14}>
-                    <ProjectTitle level={3}>擬訂新北市中和區健康段954地號等7筆土地</ProjectTitle>
-                    <ProjectLocation>新北市中和區</ProjectLocation>
-                    <Paragraph>
-                      本案位於新北市中和區健康段，土地面積約為X平方公尺，規劃為地上X層、地下X層的複合式建築，
-                      包含住宅單位與商業空間。專案亮點為便利的交通位置、現代化設施及舒適的生活環境。
-                    </Paragraph>
-                    <Paragraph>
-                      <Text strong>都市更新事業計畫及都市設計審議案審議會</Text>
-                    </Paragraph>
-                  </Col>
+                  {otherProjects.map(project => (
+                    <Col xs={24} sm={12} lg={8} key={project.id}>
+                      <Card
+                        hoverable
+                        cover={
+                          <Image 
+                            src={project.imageUrl || '/serviceImg.eb32ecf0.jpg'} 
+                            alt={project.title}
+                            preview={false}
+                            height={200}
+                            style={{ objectFit: 'cover' }}
+                          />
+                        }
+                      >
+                        <Card.Meta 
+                          title={
+                            <Space direction="vertical" size="small">
+                              <Text strong>{project.title}</Text>
+                              <Space>
+                                <Tag color="blue">{project.category}</Tag>
+                                <Tag 
+                                  color={project.status === ProjectStatus.complete ? 'green' : 'orange'}
+                                >
+                                  {project.status === ProjectStatus.complete ? '已完成' : '進行中'}
+                                </Tag>
+                              </Space>
+                            </Space>
+                          }
+                          description={
+                            <div>
+                              <Text type="secondary">{project.location}</Text>
+                              <Paragraph ellipsis={{ rows: 2 }} style={{ marginTop: 8 }}>
+                                {project.description}
+                              </Paragraph>
+                            </div>
+                          }
+                        />
+                      </Card>
+                    </Col>
+                  ))}
                 </Row>
-              </StyledCard>
-            </Col>
-          </Row>
-          
-          <Divider />
-          
-          <Title level={3} style={{ textAlign: 'center', margin: '40px 0 30px' }}>更多項目</Title>
-          <Row gutter={[24, 24]}>
-            <Col xs={24} sm={12} lg={8}>
-              <Card
-                hoverable
-                cover={
-                  <Image 
-                    src="/serviceImg.eb32ecf0.jpg" 
-                    alt="台北市某區都更案"
-                    preview={false}
-                    height={200}
-                    style={{ objectFit: 'cover' }}
-                  />
-                }
-              >
-                <Card.Meta title="台北市某區都更案" description="住商混合開發項目" />
-              </Card>
-            </Col>
-            <Col xs={24} sm={12} lg={8}>
-              <Card
-                hoverable
-                cover={
-                  <Image 
-                    src="/serviceImg.eb32ecf0.jpg" 
-                    alt="新北市某區都更案"
-                    preview={false}
-                    height={200}
-                    style={{ objectFit: 'cover' }}
-                  />
-                }
-              >
-                <Card.Meta title="新北市某區都更案" description="住宅開發項目" />
-              </Card>
-            </Col>
-            <Col xs={24} sm={12} lg={8}>
-              <Card
-                hoverable
-                cover={
-                  <Image 
-                    src="/serviceImg.eb32ecf0.jpg" 
-                    alt="桃園市某區都更案"
-                    preview={false}
-                    height={200}
-                    style={{ objectFit: 'cover' }}
-                  />
-                }
-              >
-                <Card.Meta title="桃園市某區都更案" description="商業區開發項目" />
-              </Card>
-            </Col>
-          </Row>
+              </>
+            )}
+
+            {/* 無資料提示 */}
+            {projects.length === 0 && !loading && (
+              <div style={{ textAlign: 'center', padding: '60px 0' }}>
+                <Text type="secondary">暫無專案資料</Text>
+              </div>
+            )}
+          </Spin>
         </ContentWrapper>
       </PageContainer>
     </>

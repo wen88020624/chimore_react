@@ -5,14 +5,15 @@ const API_BASE_URL = 'http://localhost:3000';
 // API 請求工具函數
 async function apiRequest<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  requireAuth: boolean = false
 ): Promise<T> {
   const token = localStorage.getItem('adminToken');
   
   const config: RequestInit = {
     headers: {
       'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(token && requireAuth && { Authorization: `Bearer ${token}` }),
       ...options.headers,
     },
     ...options,
@@ -51,26 +52,26 @@ export const projectsApi = {
     apiRequest<Project>('/projects', {
       method: 'POST',
       body: JSON.stringify(data),
-    }),
+    }, true),
 
   // 更新專案
   update: (id: string, data: UpdateProjectDto): Promise<Project> => 
     apiRequest<Project>(`/projects/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
-    }),
+    }, true),
 
   // 刪除專案
   delete: (id: string): Promise<void> => 
     apiRequest<void>(`/projects/${id}`, {
       method: 'DELETE',
-    }),
+    }, true),
 
   // 創建範例專案
   createSamples: (): Promise<Project[]> => 
     apiRequest<Project[]>('/projects/sample/urban-renewal', {
       method: 'POST',
-    }),
+    }, true),
 };
 
 // 身份驗證相關 API（模擬）
