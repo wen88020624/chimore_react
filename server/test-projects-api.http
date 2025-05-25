@@ -1,0 +1,52 @@
+### Projects API 測試檔案
+
+### 1. 建立新專案
+POST http://localhost:3000/projects
+Content-Type: application/json
+
+{
+  "title": "企業官網重新設計",
+  "category": "網頁設計",
+  "content": "為某科技公司重新設計企業官網，包含響應式設計、SEO優化、以及現代化的使用者介面。使用了最新的設計趨勢和技術。",
+  "status": "inProgress",
+  "imageUrl": "https://example.com/project1.jpg"
+}
+
+### 2. 建立另一個專案
+POST http://localhost:3000/projects
+Content-Type: application/json
+
+{
+  "title": "電商平台開發",
+  "category": "網頁開發",
+  "content": "開發一個完整的電商平台，包含商品管理、購物車、付款系統、訂單管理等功能。",
+  "status": "complete",
+  "imageUrl": "https://example.com/project2.jpg"
+}
+
+### 3. 取得所有專案
+GET http://localhost:3000/projects
+
+### 4. 根據狀態篩選專案 (進行中)
+GET http://localhost:3000/projects?status=inProgress
+
+### 5. 根據狀態篩選專案 (已完成)
+GET http://localhost:3000/projects?status=complete
+
+### 6. 根據分類篩選專案
+GET http://localhost:3000/projects?category=網頁設計
+
+### 7. 取得單一專案 (需要先建立專案取得 ID)
+GET http://localhost:3000/projects/{project-id}
+
+### 8. 更新專案 (需要先建立專案取得 ID)
+PATCH http://localhost:3000/projects/{project-id}
+Content-Type: application/json
+
+{
+  "title": "企業官網重新設計 - 已更新",
+  "status": "complete"
+}
+
+### 9. 刪除專案 (需要先建立專案取得 ID)
+DELETE http://localhost:3000/projects/{project-id} 

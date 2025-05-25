@@ -38,3 +38,25 @@ model Post {
 
   @@map("posts")
 }
+
+// 案例實績專案模型
+model Project {
+  id          String        @id @default(uuid()) // 使用 UUID
+  title       String        // 文章標題
+  category    String        // 文章分類
+  content     String        // 內文
+  status      ProjectStatus @default(inProgress) // 狀態
+  imageUrl    String?       // 圖片url (可選)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("projects")
+}
+
+// 專案狀態枚舉
+enum ProjectStatus {
+  inProgress // 進行中
+  complete   // 完成
+
+  @@map("project_status")
+}
