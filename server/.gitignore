@@ -104,7 +104,6 @@ Thumbs.db
 
 # Prisma
 /generated/
-/prisma/migrations/
 
 # Docker
 .dockerignore
