@@ -1,0 +1,27 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="40" cy="40" r="40" fill="#2ecc71" fill-opacity="0.1"/>
+  <circle cx="40" cy="40" r="32" fill="#2ecc71" fill-opacity="0.2"/>
+  
+  <!-- Gear/Service icon -->
+  <g transform="translate(40, 40)">
+    <circle r="12" fill="#2ecc71"/>
+    <circle r="6" fill="white"/>
+    
+    <!-- Gear teeth -->
+    <rect x="-2" y="-16" width="4" height="4" fill="#2ecc71" rx="1"/>
+    <rect x="-2" y="12" width="4" height="4" fill="#2ecc71" rx="1"/>
+    <rect x="12" y="-2" width="4" height="4" fill="#2ecc71" rx="1"/>
+    <rect x="-16" y="-2" width="4" height="4" fill="#2ecc71" rx="1"/>
+    
+    <rect x="8" y="-12" width="4" height="4" fill="#2ecc71" rx="1" transform="rotate(45)"/>
+    <rect x="8" y="8" width="4" height="4" fill="#2ecc71" rx="1" transform="rotate(45)"/>
+    <rect x="-12" y="8" width="4" height="4" fill="#2ecc71" rx="1" transform="rotate(45)"/>
+    <rect x="-12" y="-12" width="4" height="4" fill="#2ecc71" rx="1" transform="rotate(45)"/>
+  </g>
+  
+  <!-- Tools -->
+  <rect x="20" y="55" width="16" height="3" fill="#2ecc71" rx="1.5"/>
+  <rect x="44" y="55" width="16" height="3" fill="#2ecc71" rx="1.5"/>
+  <circle cx="28" cy="52" r="2" fill="#2ecc71"/>
+  <circle cx="52" cy="52" r="2" fill="#2ecc71"/>
+</svg> 
