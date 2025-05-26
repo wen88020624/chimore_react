@@ -14,6 +14,7 @@
 
 html, body {
   scroll-behavior: smooth;
+  overflow-x: hidden; /* 防止水平滾動 */
 }
 
 body {
@@ -24,11 +25,13 @@ body {
   min-height: 100vh;
   color: rgba(0, 0, 0, 0.85);
   background-color: #f0f2f5;
+  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1.5;
+  line-height: 1.4;
   font-weight: 600;
+  margin-bottom: 0.5em;
 }
 
 a {
@@ -44,19 +47,185 @@ a:hover {
 img {
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
 .ant-layout {
   background: white;
 }
 
-/* 使用媒體查詢實現響應式設計 */
+/* 響應式容器 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 響應式字體大小 */
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
 @media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .container {
+    padding: 0 12px;
+  }
+  
   .ant-typography h1 {
-    font-size: 28px;
+    font-size: 28px !important;
   }
   
   .ant-typography h2 {
-    font-size: 24px;
+    font-size: 24px !important;
+  }
+  
+  .ant-typography h3 {
+    font-size: 20px !important;
+  }
+  
+  .ant-typography h4 {
+    font-size: 18px !important;
+  }
+  
+  /* Ant Design 組件響應式調整 */
+  .ant-card {
+    margin-bottom: 16px;
+  }
+  
+  .ant-card-body {
+    padding: 16px !important;
+  }
+  
+  .ant-row {
+    margin-left: -8px !important;
+    margin-right: -8px !important;
+  }
+  
+  .ant-col {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+  
+  .container {
+    padding: 0 8px;
+  }
+  
+  .ant-typography h1 {
+    font-size: 24px !important;
+  }
+  
+  .ant-typography h2 {
+    font-size: 20px !important;
+  }
+  
+  .ant-typography h3 {
+    font-size: 18px !important;
+  }
+  
+  .ant-typography h4 {
+    font-size: 16px !important;
+  }
+  
+  .ant-card-body {
+    padding: 12px !important;
+  }
+  
+  .ant-row {
+    margin-left: -4px !important;
+    margin-right: -4px !important;
+  }
+  
+  .ant-col {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+}
+
+/* 移動端觸摸優化 */
+@media (max-width: 768px) {
+  button, .ant-btn {
+    min-height: 44px;
+    padding: 8px 16px;
+  }
+  
+  .ant-menu-item {
+    min-height: 44px;
+    line-height: 44px;
+  }
+  
+  /* 改善觸摸目標大小 */
+  a, button, input, select, textarea {
+    min-height: 44px;
+  }
+}
+
+/* 滾動條樣式優化 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 載入動畫 */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 無障礙設計 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* 高對比度模式支持 */
+@media (prefers-contrast: high) {
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  .ant-card {
+    border: 2px solid black;
   }
 }
